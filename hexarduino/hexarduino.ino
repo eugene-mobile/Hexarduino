@@ -1,15 +1,18 @@
-int ch1 = 4;
-int ch2 = 5;
-int ch3 = 6;
-int ch4 = 7;
-int ch5 = 8;
-int ch6 = 9;
+int ch1 = 9;
+int ch2 = 8;
+int ch3 = 7;
+int ch4 = 6;
+int ch5 = 5;
+int ch6 = 4;
+int led = 13;
 
 boolean moving = false;
 
 short values[] = {1500, 1500, 1500, 1500, 1500, 1500};
 
 void setup() {
+  pinMode(led, OUTPUT);
+
   pinMode(ch1, INPUT);
   pinMode(ch2, INPUT);
   pinMode(ch3, INPUT);
@@ -18,11 +21,12 @@ void setup() {
   pinMode(ch6, INPUT);
   Serial.begin(115200);
   
-  Serial.println("LH1000 LM1400 LL1800 RH1800 RM1400 RL1000 VS3000");
+  returnLegsToInitialPosition();
+
+  Serial.println("LH1000 LM1200 LL1800 RH1800 RM1200 RL1000 VS3000");
   delay(50);
-  Serial.println("LF1700 LR1300 RF1300 RR1700 HT1500");
+  Serial.println("LF1700 LR1300 RF1300 RR1700 HT300");
   delay(50);
-  Serial.println("#8P1500#9P1500#10P1500#24P1500#25P1500#26P1500T2000");
 }
 
 void loop() {
@@ -53,6 +57,8 @@ void loop() {
   if (movingSpeed < 10 && movingSpeed > -10 && turningSpeed < 10 && turningSpeed > -10) {
     if (moving) {
       Serial.println("XSTOP");
+      delay(30);
+      returnLegsToInitialPosition();
     }
     moving = false;
   } else {
@@ -70,12 +76,31 @@ void loop() {
     if (xr < 0) xr = max(xr, -100);
     if (xr > 0) xr = min(xr, 100);
 
+    digitalWrite(led, HIGH);
     Serial.print("XL");
     Serial.print(xl, DEC); 
     Serial.print(" XR");
     Serial.print(xr, DEC); 
-    Serial.println(" XS100");
+    Serial.println(" XS200");
   }
     
   delay(100);
+  digitalWrite(led, LOW);
+}
+
+void returnLegsToInitialPosition() {
+  digitalWrite(led, HIGH);
+  Serial.print("#8P1300#9P1300#10P1300");
+  delay(30);
+  Serial.print("#24P1700#25P1700#26P1700");  
+  delay(30);
+  Serial.print("#1P1500#3P1500#5P1500");
+  delay(30);
+  Serial.print("#17P1500#19P1500#21P1500");
+  delay(30);
+  Serial.println("#0P1300#2P1300#4P1300");
+  delay(30);
+  Serial.println("#16P1700#18P1700#20P1700T500");
+  delay(2000);
+  digitalWrite(led, LOW);
 }
