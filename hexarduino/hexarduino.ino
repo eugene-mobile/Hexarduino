@@ -66,15 +66,6 @@ void loop() {
   //Serial.print("--turningSpeed=");
   //Serial.println(turningSpeed,DEC);
   
-  if (movingSpeed < 10 && movingSpeed > -10 && turningSpeed < 10 && turningSpeed > -10) {
-    long microsec = distance.timing();
-    float cmMsec = distance.convert(microsec, Ultrasonic::CM);
-    //Serial.print("Distance: ");
-    //Serial.println(cmMsec);
-    if (cmMsec>5 && cmMsec<30) {
-      movingSpeed = -100;
-    }
-  }
   //Lynxmotion SSC-32 already has some gaits pre-configured, and 
   // gives you API that looks like commanding a tank (by applying 
   // speed to motors connected to it's left and right tracks).
