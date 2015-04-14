@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-#include <Ultrasonic.h>
+//#include <Ultrasonic.h>
 
 const int ch1 = 7;
 const int ch2 = 6;
@@ -27,7 +27,7 @@ short values[] = {1500, 1500, 1500, 1500, 1500, 1500};
 short oldValues[] = {0, 0, 0, 0, 0, 0};
 
 SoftwareSerial engines(8,9);
-Ultrasonic distance(10, 11);
+//Ultrasonic distance(10, 11);
 
 void setup() {
   pinMode(led, OUTPUT);
@@ -116,34 +116,7 @@ void loop() {
 }
 
 void setupGaitValues() {
-  int newMediumPosition = 0;
-  while (newMediumPosition<900 || newMediumPosition>1900) {
-    newMediumPosition = pulseIn(ch6, HIGH);
-  }
-
-  if (abs(newMediumPosition-mediumLegPosition)<50) return;
-  mediumLegPosition = newMediumPosition;
-  int low = mediumLegPosition-400;
-  int high = mediumLegPosition+400;
-  String gaitSetup = "LH";
-  gaitSetup += low;
-  gaitSetup += " LM";
-  gaitSetup += mediumLegPosition;
-  gaitSetup += " LL";
-  gaitSetup += high;
-  gaitSetup += " RH";
-  gaitSetup += high;
-  gaitSetup += " RM";
-  gaitSetup += mediumLegPosition;
-  gaitSetup += " RL";
-  gaitSetup += low;
-
-  //Good values should be around following: 
-  //Serial.println("LH1000 LM1400 LL1800 RH1800 RM1400 RL1000 VS3000");
-
-  gaitSetup += " VS3000";
-  Serial.println(gaitSetup);
-  engines.println(gaitSetup);
+  Serial.println("LH1000 LM1400 LL1800 RH1800 RM1400 RL1000 VS3000");
   delay(50);
   Serial.println("LF1700 LR1300 RF1300 RR1700 HT300");
   engines.println("LF1700 LR1300 RF1300 RR1700 HT300");
