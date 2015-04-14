@@ -132,9 +132,7 @@ void returnLegsToInitialPosition() {
   
   oldValues[2] = values[2];
   Serial.print("ch3=");
-  Serial.print(values[2], DEC);
-  Serial.print("; ch4=");
-  Serial.println(values[3], DEC);
+  Serial.println(values[2], DEC);
   
   digitalWrite(led, HIGH);
   Serial.print("#1P1500#3P1500#5P1500");
@@ -151,8 +149,8 @@ void returnLegsToInitialPosition() {
   short servoNums4[] = {16, 18, 20};
   moveServos(3, servoNums4, rightShoulder);
 
-  int rightKnees = 1480 + (values[2]/2);
-  int leftKnees  = 1480 - (values[2]/2);
+  int rightKnees = 1580 + (values[2]+30);
+  int leftKnees  = 1580 - (values[2]+30);
   
   short servoNums1[] = {8, 9, 10};
   moveServos(3, servoNums1, leftKnees);
